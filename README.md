@@ -3,6 +3,9 @@ This is a classification sample of actors voice by TF.
 
 The voice used is not included due to copyright issues.
 
+## How to use
+1.please execute "main.py"
+
 ### required
 tensorflow
 
