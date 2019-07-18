@@ -77,7 +77,7 @@ if __name__ == '__main__':
     model=Ter(model,ans)
     
     tf.summary.scalar('loss',model.Loss)
-    merged=tf.summary.merge()
+    merged=tf.summary.merge_all()
 #    tf.summary.scalar('eval_loss',model.Loss)
 #    mergedeval=tf.summary.merge()
     
