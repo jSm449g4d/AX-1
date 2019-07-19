@@ -23,7 +23,7 @@ pip install git+https://github.com/jSm449g4d/AR9
 
 
 
-### Directory structure example
+### directory structure example
  
 Train/
 
@@ -32,7 +32,7 @@ Train/
   │ ┣1(voice).wav
     
   │ ┣2.wav
-    
+     
   │ ┣3.wav
     
   │ ┗4.wav
@@ -40,3 +40,11 @@ Train/
   ┣B/
   
   ┗C/
+
+### my experimental example (Output file of my example)
+
+I classified 5 voice actors by "AX-1".
+
+The number of voice samples as training data for each voice actor is "55,44,63,68,56"
+
+The number of voice samples as test data for each voice actor is 15
