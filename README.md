@@ -11,6 +11,8 @@ tensorflow
 
 tqdm
 
+argparse
+
 AudioSegment
 
 pip install git+https://github.com/jSm449g4d/AR9
