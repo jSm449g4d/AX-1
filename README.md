@@ -9,18 +9,18 @@ The voice used is not included due to copyright issues.
 1.prepare datasets(.wav)
 
 Directory structure example
-
+ 
 Train/
 
   ┣A
   
-   ┣1.wav
+  │ ┣1.wav
     
-   ┣2.wav
+  │ ┣2.wav
     
-   ┣3.wav
+  │ ┣3.wav
     
-   ┗4.wav
+  │ ┗4.wav
   
   ┣B
   
