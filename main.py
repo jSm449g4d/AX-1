@@ -12,7 +12,6 @@ import argparse
 import tensorflow as tf
 import tensorflow.python.keras.layers as KL
 import tensorflow.python.keras as K
-from tensorboard.plugins.hparams import api as hp
 
 #wavedata to numpy
 def wavdt(input,dwin):
@@ -71,6 +70,7 @@ if __name__ == '__main__':
     parser.add_argument('--train', help='train data dir',default="../DATABASE/AX-1/Train")
     parser.add_argument('--test', help='test data dir',default="../DATABASE/AX-1/Test")
     parser.add_argument('--dwin', help='size of wavefile(dwin/44100[s])',default=250000,type=int)
+    parser.add_argument('--epoch', help='size of wavefile(dwin/44100[s])',default=10000,type=int)
     args = parser.parse_args(args=[])
     dwin=args.dwin;
     folders=ffzl(args.train);tests=ffzl(args.test)
@@ -93,10 +93,11 @@ if __name__ == '__main__':
     with tf.Session() as sess:
         with tf.summary.FileWriter('./logs', sess.graph) as writer:
             sess.run(tf.global_variables_initializer())
+            #try to load last state
             SLR=slr();SLR.load(sess)
         
             #training
-            for i in tqdm(range(6000)):
+            for i in tqdm(range(args.epoch)):
                 #Due to the capacity of DRAM, read every use
                 wx,ly=wavdt_is2np(folders,dwin)
                 result=sess.run([model.train,mg_loss],feed_dict={x:np.reshape(wx,(1,dwin)),
@@ -106,7 +107,6 @@ if __name__ == '__main__':
                 writer.add_summary(summary,global_step=i)
                 
             #evaluation
-            
             for label in range(len(tests)):
                 for l_id in range(len(tests[label])):
                     summary=sess.run(mg_test,feed_dict
@@ -114,8 +114,8 @@ if __name__ == '__main__':
                                          y:np.reshape(np.array(label),(1,1))})
                     writer.add_summary(summary,global_step=len(tests[label])*label+l_id)
             
-            SLR.cnt+=6000
-            SLR.save(sess)
+            #soad current state
+            SLR.cnt+=args.epoch;SLR.save(sess)
         
         
         
