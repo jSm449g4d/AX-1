@@ -1,0 +1,2 @@
+model_checkpoint_path: "savdata.model-10000"
+all_model_checkpoint_paths: "savdata.model-10000"
