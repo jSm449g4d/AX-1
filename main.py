@@ -70,7 +70,7 @@ if __name__ == '__main__':
     parser.add_argument('--train', help='train data dir',default="../DATABASE/AX-1/Train")
     parser.add_argument('--test', help='test data dir',default="../DATABASE/AX-1/Test")
     parser.add_argument('--dwin', help='size of wavefile(dwin/44100[s])',default=250000,type=int)
-    parser.add_argument('--epoch', help='size of wavefile(dwin/44100[s])',default=10000,type=int)
+    parser.add_argument('--epoch', help='Number of trainings',default=10000,type=int)
     args = parser.parse_args(args=[])
     dwin=args.dwin;
     folders=ffzl(args.train);tests=ffzl(args.test)
