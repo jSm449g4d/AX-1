@@ -8,7 +8,7 @@ The voice used is not included due to copyright issues.
 
 1.prepare datasets(.wav)
 
-###Directory structure example
+### Directory structure example
  
 Train/
 
