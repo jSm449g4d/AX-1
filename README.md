@@ -8,7 +8,7 @@ The voice used is not included due to copyright issues.
 
 1.prepare datasets(.wav)
 
-2.python main.py --train=X --test
+2.python main.py --train=../X(your train datasets directory) --test=../Y(your test datasets directory)
 
 ### required
 tensorflow
