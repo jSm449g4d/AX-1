@@ -8,25 +8,25 @@ The voice used is not included due to copyright issues.
 
 1.prepare datasets(.wav)
 
-example
+Directory structure example
 
 Train/
 
   ┣A
   
-    ┣1.wav
+   ┣1.wav
     
-    ┣2.wav
+   ┣2.wav
     
-    ┣3.wav
+   ┣3.wav
     
-    ┗4.wav
+   ┗4.wav
   
   ┣B
   
   ┗C
   
-1.python main.py --train=X --test
+2.python main.py --train=X --test
 
 ### required
 tensorflow
