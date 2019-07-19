@@ -1,7 +1,7 @@
 # AX-1
 This is a classification sample of actors voice by TF.
 
-The voice used is not included due to copyright issues.
+The voice used are not included due to copyright issues.
 
 ## How to use
 0.install required modules
