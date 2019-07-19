@@ -45,6 +45,8 @@ Train/
 
 I classified 5 voice actors by "AX-1".
 
-The number of voice samples as training data for each voice actor is "55,44,63,68,56"
+The number of voice samples as training data for each voice actor is "55,44,63,68,56".
 
-The number of voice samples as test data for each voice actor is 15
+The number of voice samples as test data for each voice actor is 15.
+
+The contents of "Output/" folder in this repository are the output files at that time.
