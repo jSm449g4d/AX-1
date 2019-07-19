@@ -8,6 +8,21 @@ The voice used is not included due to copyright issues.
 
 1.prepare datasets(.wav)
 
+2.python main.py --train=X --test
+
+### required
+tensorflow
+
+tqdm
+
+argparse
+
+AudioSegment
+
+pip install git+https://github.com/jSm449g4d/AR9
+
+
+
 ### Directory structure example
  
 Train/
@@ -25,16 +40,3 @@ Train/
   ┣B/
   
   ┗C/
-  
-2.python main.py --train=X --test
-
-### required
-tensorflow
-
-tqdm
-
-argparse
-
-AudioSegment
-
-pip install git+https://github.com/jSm449g4d/AR9
