@@ -4,9 +4,10 @@
 from pydub import AudioSegment
 import os
 import numpy as np
-from ARSLR import slr
+from ARSLR import slr#a module I made
 import random
 from tqdm import tqdm
+import argparse
 
 import tensorflow as tf
 import tensorflow.python.keras.layers as KL
@@ -37,8 +38,8 @@ def ffzl(input):
             for fil in sb_file:image_struct[-1].append(fd_path + '/' + fil)
     return image_struct
 
-
-class Convs:#Block of convolutions
+#Block of convolutions
+class Convs:
     def __init__(self,dim=512):
         self.dim=dim
     def __call__(self,model):
@@ -51,7 +52,8 @@ class Convs:#Block of convolutions
             model=KL.Dropout(0.25)(model)
         return model
     
-class Ter:#Block of Terminal
+#Block of Terminal
+class Ter:
     def __init__(self,model,ans):
         with tf.name_scope("Terminal") as scope:
             self.Loss=tf.reduce_sum(-tf.log(model)*ans)
@@ -61,8 +63,17 @@ class Ter:#Block of Terminal
     
 
 if __name__ == '__main__':
-    dwin=250000;datafolder="../DATABASE/AX-1/Train";evalfolder="../DATABASE/AX-1/Eval"
-    folders=ffzl(datafolder);evals=ffzl(evalfolder)
+    parser = argparse.ArgumentParser(
+            prog='AX-1',
+            description='This is a classification sample of actors voice by TF.',
+            add_help=True
+            )
+    parser.add_argument('--train', help='train data dir',default="../DATABASE/AX-1/Train")
+    parser.add_argument('--test', help='test data dir',default="../DATABASE/AX-1/Test")
+    parser.add_argument('--dwin', help='size of wavefile(dwin/44100[s])',default=250000,type=int)
+    args = parser.parse_args(args=[])
+    dwin=args.dwin;
+    folders=ffzl(args.train);tests=ffzl(args.test)
     
     x=tf.compat.v1.placeholder(tf.float32, shape=(None, dwin))
     y=tf.compat.v1.placeholder(tf.int32, shape=(None,1))
@@ -71,15 +82,13 @@ if __name__ == '__main__':
     model=Convs(16)(model)
     model=Convs(32)(model)
     model=Convs(64)(model)
-    model=Convs(96)(model)
     model=KL.GlobalMaxPool1D()(model)
+    model=KL.Dropout(0.25)(model)
     model=KL.Dense(len(folders), activation='softmax')(model)
     model=Ter(model,ans)
     
-    tf.summary.scalar('loss',model.Loss)
-    merged=tf.summary.merge_all()
-#    tf.summary.scalar('eval_loss',model.Loss)
-#    mergedeval=tf.summary.merge()
+    mg_loss=tf.compat.v1.summary.scalar('loss',model.Loss)
+    mg_test=tf.compat.v1.summary.scalar('test',model.Loss)
     
     with tf.Session() as sess:
         with tf.summary.FileWriter('./logs', sess.graph) as writer:
@@ -87,26 +96,25 @@ if __name__ == '__main__':
             SLR=slr();SLR.load(sess)
         
             #training
-            for i in tqdm(range(3000)):
+            for i in tqdm(range(6000)):
                 #Due to the capacity of DRAM, read every use
                 wx,ly=wavdt_is2np(folders,dwin)
-                _,Loss,_=sess.run(model.train,feed_dict={x:np.reshape(wx,(1,dwin)),y:np.reshape(ly,(1,1))})
-                
+                result=sess.run([model.train,mg_loss],feed_dict={x:np.reshape(wx,(1,dwin)),
+                                                                 y:np.reshape(ly,(1,1))})
+                summary=result[1]
                 #logging
-                summary=sess.run(merged,feed_dict={x:np.reshape(wx,(1,dwin)),y:np.reshape(ly,(1,1))})
                 writer.add_summary(summary,global_step=i)
                 
-    
             #evaluation
-            for label in range(len(evals)):
-                for l_id in range(len(evals[label])):1
-#                    summary=sess.run(mergedeval,feed_dict
-#                                       ={x:np.reshape(wavdt(evals[label][l_id],dwin),(1,dwin)),
-#                                         y:np.reshape(np.array(label),(1,1))})
-#                    writer.add_summary(summary,global_step=len(evals[label])*label+l_id)
-#                    print("label,id=",label,l_id,":",Loss,pred)
-                
-            SLR.cnt+=3000
+            
+            for label in range(len(tests)):
+                for l_id in range(len(tests[label])):
+                    summary=sess.run(mg_test,feed_dict
+                                       ={x:np.reshape(wavdt(tests[label][l_id],dwin),(1,dwin)),
+                                         y:np.reshape(np.array(label),(1,1))})
+                    writer.add_summary(summary,global_step=len(tests[label])*label+l_id)
+            
+            SLR.cnt+=6000
             SLR.save(sess)
         
         
