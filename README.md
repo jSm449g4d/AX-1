@@ -8,13 +8,13 @@ The voice used is not included due to copyright issues.
 
 1.prepare datasets(.wav)
 
-Directory structure example
+###Directory structure example
  
 Train/
 
-  ┣A
+  ┣A(actor)/
   
-  │ ┣1.wav
+  │ ┣1(voice).wav
     
   │ ┣2.wav
     
@@ -22,9 +22,9 @@ Train/
     
   │ ┗4.wav
   
-  ┣B
+  ┣B/
   
-  ┗C
+  ┗C/
   
 2.python main.py --train=X --test
 
